@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi primera pagina para ti</title>
+    <title>Mi primera página para ti</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -94,28 +94,45 @@
             from { transform: translateY(0); opacity: 0.7; }
             to { transform: translateY(-100vh); opacity: 0; }
         }
+
+        .yes-button {
+            background-color: #ff4081;
+            font-size: 22px;
+            padding: 15px 30px;
+            border-radius: 10px;
+        }
+
+        .no-button {
+            background-color: #444;
+            font-size: 18px;
+        }
     </style>
 </head>
 <body>
-    <h1>HOLAAAAAAAAAA mi pastelitooo
-     presiona los botones para que veas lo que soy capaz por ti...</h1>
+    <h1>HOLAAAAAAAAAA mi pastelitooo 💖 Presiona los botones para ver lo que soy capaz de hacer por ti...</h1>
     
     <div class="container">
         <button onclick="showNext()">Haz clic aquí</button>
     </div>
 
-    <div id="final-message" class="final-message">¿Quieres ser mi San Valentín? ❤️</div>
+    <div id="final-message" class="final-message">
+        ¿Quieres ser mi San Valentín? ❤️
+        <div>
+            <button class="yes-button" onclick="acceptLove()">Sí ❤️</button>
+            <button class="no-button" onclick="denyLove()">No 😢</button>
+        </div>
+    </div>
 
     <script>
         let currentIndex = 0;
 
         const mediaItems = [
-            { type: "image", src: "imagen1.jpg", text: "Eres lo mas lindo que me ha pasado mi pinguinita ❤️ Foto iconica igual seee" },
-            { type: "image", src: "imagen2.jpg", text: "Cada momento contigo es sspeechiaal 💕" },
-            { type: "video", src: "video1.mp4", text: "aca hay una leve recopilacion de lo lindo que nos vemos jejeeee" },
+            { type: "image", src: "imagen1.jpg", text: "Eres lo más lindo que me ha pasado mi pingüinita ❤️" },
+            { type: "image", src: "imagen2.jpg", text: "Cada momento contigo es especial 💕" },
+            { type: "video", src: "video1.mp4", text: "Aquí hay una recopilación de lo lindo que nos vemos jeje" },
             { type: "image", src: "imagen3.jpg", text: "No hay otro shanguito como tú 🐒😍" },
-            { type: "video", src: "video2.mp4", text: "Te acuerdas de ese dia? 🤭" },
-            { type: "image", src: "imagen4.jpg", text: "Gracias por hacerme tan feliz pikitaaaa" }
+            { type: "video", src: "video2.mp4", text: "¿Te acuerdas de ese día? 🤭" },
+            { type: "image", src: "imagen4.jpg", text: "Gracias por hacerme tan feliz, piquitaaa 💖" }
         ];
 
         function showNext() {
@@ -139,11 +156,9 @@
                 container.appendChild(mediaContainer);
             }
 
-            // Limpiar contenido previo
             const mediaElement = document.getElementById("media-element");
             mediaElement.innerHTML = "";
 
-            // Agregar nuevo contenido
             if (mediaItems[currentIndex].type === "image") {
                 const img = document.createElement("img");
                 img.src = mediaItems[currentIndex].src;
@@ -160,7 +175,6 @@
 
             currentIndex++;
 
-            // Eliminar botón anterior y agregar uno nuevo si hay más contenido
             const prevButton = document.querySelector(".next-button");
             if (prevButton) prevButton.remove();
 
@@ -173,13 +187,34 @@
             } else {
                 setTimeout(() => {
                     document.getElementById("final-message").style.display = "block";
-                    createHearts();
                 }, 1000);
             }
         }
 
+        function acceptLove() {
+            document.body.innerHTML = "<h1>¡Siiiii! 💖🥰💍</h1><p>Eres el amor de mi vida y me haces la persona más feliz del mundo</p>";
+            createHearts();
+        }
+
+        function denyLove() {
+            const noButton = document.querySelector(".no-button");
+            noButton.remove();
+
+            for (let i = 0; i < 20; i++) {
+                let newYesButton = document.createElement("button");
+                newYesButton.textContent = "Sí ❤️";
+                newYesButton.classList.add("yes-button");
+                newYesButton.style.position = "absolute";
+                newYesButton.style.left = Math.random() * window.innerWidth + "px";
+                newYesButton.style.top = Math.random() * window.innerHeight + "px";
+                newYesButton.onclick = acceptLove;
+
+                document.body.appendChild(newYesButton);
+            }
+        }
+
         function createHearts() {
-            for (let i = 0; i < 15; i++) {
+            for (let i = 0; i < 30; i++) {
                 let heart = document.createElement("div");
                 heart.innerHTML = "❤️";
                 heart.classList.add("heart-float");
