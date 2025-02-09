@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi primera pagina para ti</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #ffdde1;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        h1 {
+            font-size: 24px;
+            color: #d63384;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .media-container {
+            margin-top: 10px;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .media-container img, .media-container video {
+            width: 200px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .media-text {
+            font-size: 18px;
+            margin-top: 10px;
+            color: #c9184a;
+            font-weight: bold;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #ff4d6d;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color: #c9184a;
+        }
+
+        .final-message {
+            font-size: 24px;
+            color: #d63384;
+            font-weight: bold;
+            margin-top: 20px;
+            display: none;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .heart-float {
+            position: absolute;
+            font-size: 24px;
+            color: red;
+            opacity: 0.7;
+            animation: floatUp 4s linear infinite;
+        }
+
+        @keyframes floatUp {
+            from { transform: translateY(0); opacity: 0.7; }
+            to { transform: translateY(-100vh); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <h1>HOLAAAAAAAAAA mi pastelitooo
+     presiona los botones para que veas lo que soy capaz por ti...</h1>
+    
+    <div class="container">
+        <button onclick="showNext()">Haz clic aquí</button>
+    </div>
+
+    <div id="final-message" class="final-message">¿Quieres ser mi San Valentín? ❤️</div>
+
+    <script>
+        let currentIndex = 0;
+
+        const mediaItems = [
+            { type: "image", src: "imagen1.jpg", text: "Eres lo mas lindo que me ha pasado mi pinguinita ❤️ Foto iconica igual seee" },
+            { type: "image", src: "imagen2.jpg", text: "Cada momento contigo es sspeechiaal 💕" },
+            { type: "video", src: "video1.mp4", text: "aca hay una leve recopilacion de lo lindo que nos vemos jejeeee" },
+            { type: "image", src: "imagen3.jpg", text: "No hay otro shanguito como tú 🐒😍" },
+            { type: "video", src: "video2.mp4", text: "Te acuerdas de ese dia? 🤭" },
+            { type: "image", src: "imagen4.jpg", text: "Gracias por hacerme tan feliz pikitaaaa" }
+        ];
+
+        function showNext() {
+            const container = document.querySelector(".container");
+            let mediaContainer = document.getElementById("dynamic-media");
+
+            if (!mediaContainer) {
+                mediaContainer = document.createElement("div");
+                mediaContainer.id = "dynamic-media";
+                mediaContainer.classList.add("media-container");
+
+                const mediaElement = document.createElement("div");
+                mediaElement.id = "media-element";
+                mediaContainer.appendChild(mediaElement);
+
+                const text = document.createElement("p");
+                text.id = "media-text";
+                text.classList.add("media-text");
+                mediaContainer.appendChild(text);
+
+                container.appendChild(mediaContainer);
+            }
+
+            // Limpiar contenido previo
+            const mediaElement = document.getElementById("media-element");
+            mediaElement.innerHTML = "";
+
+            // Agregar nuevo contenido
+            if (mediaItems[currentIndex].type === "image") {
+                const img = document.createElement("img");
+                img.src = mediaItems[currentIndex].src;
+                mediaElement.appendChild(img);
+            } else if (mediaItems[currentIndex].type === "video") {
+                const video = document.createElement("video");
+                video.src = mediaItems[currentIndex].src;
+                video.controls = true;
+                mediaElement.appendChild(video);
+            }
+
+            document.getElementById("media-text").textContent = mediaItems[currentIndex].text;
+            mediaContainer.style.display = "flex";
+
+            currentIndex++;
+
+            // Eliminar botón anterior y agregar uno nuevo si hay más contenido
+            const prevButton = document.querySelector(".next-button");
+            if (prevButton) prevButton.remove();
+
+            if (currentIndex < mediaItems.length) {
+                const newButton = document.createElement("button");
+                newButton.textContent = "Siguiente";
+                newButton.classList.add("next-button");
+                newButton.onclick = showNext;
+                container.appendChild(newButton);
+            } else {
+                setTimeout(() => {
+                    document.getElementById("final-message").style.display = "block";
+                    createHearts();
+                }, 1000);
+            }
+        }
+
+        function createHearts() {
+            for (let i = 0; i < 15; i++) {
+                let heart = document.createElement("div");
+                heart.innerHTML = "❤️";
+                heart.classList.add("heart-float");
+
+                heart.style.left = Math.random() * window.innerWidth + "px";
+                heart.style.animationDuration = (Math.random() * 3 + 2) + "s";
+
+                document.body.appendChild(heart);
+
+                setTimeout(() => {
+                    heart.remove();
+                }, 4000);
+            }
+        }
+    </script>
+</body>
+</html>
